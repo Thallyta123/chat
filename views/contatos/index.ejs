@@ -1,14 +1,35 @@
 <% include ../header %>
-<header>
-    <h2>Ntalk - Agenda de contatos</h2>
-</header>
-<selection>
-    <p>Bem vindo <%- usuario.nome %></p>
-</selection>
-<% include ../exit %>
+    <header>
+        <h2>Ntalk - Agenda de contatos</h2>
+    </header>
+    <selction>
+        <form action="/contato" method="post">
+            <input type="text" name="contato[nome]" placeholder="Nome">
+            <input type="text" name="contato[email]" placeholder="E-mail">
+            <button type="submit">cadastrar</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+        </table>
 
-<selection>
-    <a href='/sair'>Sair</a>
-</selection>
+        <tbody>
+            <% contatos.forEach(funtion(contato, index) { %>
+                <tr>
+                    <td><%- contato.nome %></td>
+                    <td><%- contato.e-mail</td>
+                    <td>
+                        <a href="/contato/<%- index %>">Detalhes"</a>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+        </section>
+        <% include ../exit %>
 
-<% include ../footer %>
+                <% include ../footer %>
