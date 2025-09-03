@@ -1,13 +1,41 @@
 <% include ../header %>
-<header>
-    <h2>Ntalk - Editar contato</h2>
-</header>
-<section>
-    <form action="/contato/<%- id%>" method="post">
-        <input type="hidden" name="_method" value="put">
-        <label>Nome:</label>
-        <input type="text" name="contato[nome]"
-                           value="<%- contato.nome %>">
-        <nome></nome>
-    </form>
-</section>
+    <header>
+        <h2>Ntalk - Editar contato</h2>
+    </header>
+    <section>
+        <form action="/contato>" method="post">
+            <input type="text" name="contato[nome]" placeholder="Nome">
+            <input type="text" name="contato[e-mail]" placeholder="E-mail">
+            <button type="submit">cadastrar</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% contato.forEach(function(contato, index) { %>
+                    <tr>
+                        <td><%- contato.nome %></td>
+                        <td><%- contato.e-mail %></td>
+                        <td>
+                            <a href="/contato/<%- index%>">Detalhes</a>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </section>
+    <% include ../exit %>
+    <% include ../footer %>
+    
+    <% include ../header %>
+    <header>
+        <h2>Ntalk - Editar contato</h2>
+    </header>
+    <section>
+        <form action="/"
+    </section>
