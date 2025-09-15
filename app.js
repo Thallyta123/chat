@@ -3,6 +3,7 @@ var express = require('express')
   , session = require('express-session')
   , metodoverritede = require('method-override')
   , load = require('express-load')
+  , erro = require('./error.js')
 var app = express();
 
 app.use(express.json());
@@ -13,20 +14,11 @@ app.use(session());
 app.use(express.urlencoded());
 app.use(metodoverritede());
 app.use(express.static(__dirname + '/public'));
-app.use(app.routes);
-app.use(express.static(__dirname + '/public'));
 
 load('models').then('controllers').then('routes').into(app)
 
+app.use(erro.notFound);
+app.use(erro.serverError);
 app.listen(3001, function () {
   console.log("Ntalk no ar.");
-});
-
-app.use(function(req, res, next) {
-  res.status(404);
-  res.render('not-found');
-});
-app.use(function(error, req, res, next) {
-  res.status(500);
-  res.render('server-error', error);
-});
+}); 
