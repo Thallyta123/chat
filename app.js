@@ -22,3 +22,30 @@ app.use(erro.serverError);
 app.listen(3001, function () {
   console.log("Ntalk no ar.");
 }); 
+
+module.exports = function(io) {
+  var sockets = io.sockets;
+  sockets.on('connection', function (client) {
+    client.on('send-server', function (data) {
+      var msg = "<b>"+data.nome+":</b> "+data.msg+"<br>";
+      client.emit('send-clint', msg);
+      client.broadcast.emit('send-client', msg);
+    });
+  });
+}
+
+var express = require('express') 
+, app = express()
+, load = require('express-load')
+, server = require('./middleware/error')
+, server = require('http').createServer(app)
+, io = require('socket.io').listen(server)
+;
+
+load('models')
+.then('controllers')
+.then('routes')
+.into(app);
+load('sockets')
+.into(io);
+
