@@ -1,9 +1,12 @@
 var express = require('express')
-  , cookieparsser = require('cookie-parser')
-  , session = require('express-session')
-  , metodoverritede = require('method-override')
-  , load = require('express-load')
-  , erro = require('./error.js')
+, cookieparsser = require('cookie-parser')
+, session = require('express-session')
+, metodoverritede = require('method-override')
+, load = require('express-load')
+, erro = require('./error.js')
+, server = require('./middleware/error')
+, io = require('socket.io').listen(server)
+, server = require('http').createServer(app)
 var app = express();
 
 app.use(express.json());
@@ -16,6 +19,8 @@ app.use(metodoverritede());
 app.use(express.static(__dirname + '/public'));
 
 load('models').then('controllers').then('routes').into(app)
+load('sockets')
+.into(io);
 
 app.use(erro.notFound);
 app.use(erro.serverError);
@@ -34,18 +39,8 @@ module.exports = function(io) {
   });
 }
 
-var express = require('express') 
-, app = express()
-, load = require('express-load')
-, server = require('./middleware/error')
-, server = require('http').createServer(app)
-, io = require('socket.io').listen(server)
-;
 
-load('models')
-.then('controllers')
-.then('routes')
-.into(app);
-load('sockets')
-.into(io);
+
+
+
 
